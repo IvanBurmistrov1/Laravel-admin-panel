@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use HasFactory, Notifiable;
 
     /**
@@ -41,26 +40,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function roles(){
-        return $this->belongsToMany(Role::class,'user_roles');
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'user_roles');
     }
 
-    private function hasRole(string $role){
-        return $this->roles()->where('name',$role)->exists();
+    private function hasRole(string $role) {
+        return $this->roles()->where('name', $role)->exists();
     }
 
-    public function isAdministrator(): bool
-    {
+    public function isAdministrator(): bool {
         return $this->hasRole('admin');
     }
 
-    public function isUser(): bool
-    {
+    public function isUser(): bool {
         return $this->hasRole('user');
     }
 
-    public function isDisabled(): bool
-    {
+    public function isDisabled(): bool {
         return $this->hasRole('disabled');
+    }
+
+    public function isVisitor(): bool {
+        return $this->hasRole('');
     }
 }

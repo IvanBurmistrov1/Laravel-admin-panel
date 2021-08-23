@@ -21,3 +21,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware'=>['status','auth']], function(){
+    $groupData = [
+        'namespace' => "App\Http\Controllers\Blog\Admin",
+        'prefix' =>'admin'
+    ];
+    Route::group($groupData, function(){
+       Route::resource('index','MainController')
+       ->names('blog.admin.index');
+    });
+});
