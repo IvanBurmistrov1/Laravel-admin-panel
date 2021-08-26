@@ -32,3 +32,5 @@ Route::group(['middleware'=>['status','auth']], function(){
        ->names('blog.admin.index');
     });
 });
+
+Route::get('user/index','App\Http\Controllers\Blog\User\MainController@index');
