@@ -24,15 +24,18 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['middleware'=>['status','auth']], function(){
+Route::group(['middleware' => ['status', 'auth']], function () {
     $groupData = [
         'namespace' => "App\Http\Controllers\Blog\Admin",
-        'prefix' =>'admin'
+        'prefix' => 'admin',
     ];
-    Route::group($groupData, function(){
-       Route::resource('index','MainController')
-       ->names('blog.admin.index');
+    Route::group($groupData, function () {
+        Route::resource('index', 'MainController')
+            ->names('blog.admin.index');
+        Route::resource('orders', 'OrderController')
+            ->names('blog/admin.orders');
+
     });
 });
 
-Route::get('user/index','App\Http\Controllers\Blog\User\MainController@index');
+Route::get('user/index', 'App\Http\Controllers\Blog\User\MainController@index');

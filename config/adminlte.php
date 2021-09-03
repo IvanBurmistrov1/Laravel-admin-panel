@@ -254,7 +254,7 @@ return [
         ],
         [
             'text' => 'Заказы',
-            'url' => 'admin/blog',
+            'url' => 'admin/orders',
             'icon' => 'fa fa-fw fa-shopping-cart',
         ],
         [
