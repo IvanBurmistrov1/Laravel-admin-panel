@@ -68,16 +68,26 @@ class OrderController extends BaseController {
     public function edit($id) {
 
         $order = $this->orderRepository->getOneOrder($id);
-        if(empty($order)){
+        if(!$order){
             abort(404);
         }
         $orderProducts = $this->orderRepository->getOrderProducts($id);
 
-
-
-        dd($orderProducts);
+        return view('blog.admin.order.edit',compact('order','orderProducts'));
     }
 
+    public function change($id){
+        $result = $this->orderRepository->changeOrderStatus($id);
+        if($result) {
+            return redirect()
+                ->route('orders.edit', $id)
+                ->with(['success' => 'Успешно сохраненно!']);
+        }else{
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения']);
+        }
+
+    }
     /**
      * Update the specified resource in storage.
      *

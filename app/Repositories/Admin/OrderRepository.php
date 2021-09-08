@@ -9,10 +9,13 @@
 namespace App\Repositories\Admin;
 
 
+use App\Models\Admin\OrderProduct;
 use App\Models\Admin\Product;
 use App\Repositories\CoreRepository;
 use App\Models\Admin\Order as Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 
 class OrderRepository extends CoreRepository {
 
@@ -37,9 +40,19 @@ class OrderRepository extends CoreRepository {
     }
 
     public function getOrderProducts(int $order_id) {
-        $orderProducts = Product::query()->where('order_id', $order_id)
+        $orderProducts = OrderProduct::query()->where('order_id', $order_id)
             ->get();
         return $orderProducts;
+    }
+
+    public function changeOrderStatus($id) {
+        $item = $this->getId($id);
+        if(!$item){
+            abort(404);
+        }
+        $item->status = Request::get('status','0');
+        $result = $item->update();
+        return $result;
     }
 
 
